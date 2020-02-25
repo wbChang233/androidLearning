@@ -1,5 +1,6 @@
 package com.albert.androidlearning;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,7 +19,8 @@ public class FirstAvtivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(FirstAvtivity.this,SecondActivity.class);
+                startActivity(intent);
             }
         });
     }
