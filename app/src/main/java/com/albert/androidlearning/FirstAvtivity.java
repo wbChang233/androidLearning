@@ -3,6 +3,7 @@ package com.albert.androidlearning;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,12 @@ public class FirstAvtivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
         return true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("FirstActivity", "onRestart: ");
     }
 
     @Override
