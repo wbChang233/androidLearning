@@ -1,13 +1,9 @@
 package com.albert.androidlearning;
 
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,27 +11,18 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
 
-/*    private String[] data = { "Apple","Banana","Watermelon","Pear","Grape","Pineapple","Strawberry",
-            "Cherry","Mango","Apple","Banana","Orange","Watermelon","Pear","Grape","Pineapple","Strawberry",
-            "Cherry","Mango"};*/
-
     private List<Fruit> fruitList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFruits();
-        FruitAdapter adapter = new FruitAdapter(MainActivity.this,R.layout.fruit_item,fruitList);
-        ListView listView = findViewById(R.id.list_view);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fruit fruit = fruitList.get(position);
-                Toast.makeText(MainActivity.this,fruit.getName(),Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        RecyclerView recyclerView = findViewById(R.id.recycle_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        FruitAdapter adapter = new FruitAdapter(fruitList);
+        recyclerView.setAdapter(adapter);
     }
 
     private void initFruits(){
