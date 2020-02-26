@@ -4,62 +4,62 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
 {
 
-    private List<Fruit> fruitList = new ArrayList<>();
+    private List<Msg> msgList = new ArrayList<>();
+
+    private EditText inputText;
+
+    private Button send;
+
+    private RecyclerView msgRecyclerView;
+
+    private MsgAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initFruits();
-        RecyclerView recyclerView = findViewById(R.id.recycle_view);
-        StaggeredGridLayoutManager layoutManager = new
-                StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        FruitAdapter adapter = new FruitAdapter(fruitList);
-        recyclerView.setAdapter(adapter);
+        initMsgs();
+        inputText = findViewById(R.id.input_text);
+        send = findViewById(R.id.send);
+        msgRecyclerView = findViewById(R.id.msg_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        msgRecyclerView.setLayoutManager(layoutManager);
+        adapter = new MsgAdapter(msgList);
+        msgRecyclerView.setAdapter(adapter);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = inputText.getText().toString();
+                if(!"".equals(content)){
+                    Msg msg = new Msg(content,Msg.TYPE_SENT);
+                    msgList.add(msg);
+                    adapter.notifyItemInserted(msgList.size() - 1);
+                    msgRecyclerView.scrollToPosition(msgList.size() - 1);
+                    inputText.setText("");
+                }
+            }
+        });
     }
 
-    private void initFruits(){
-        for (int i = 0;i < 2;i++){
-            Fruit apple = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple);
-            Fruit apple2 = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple2);
-            Fruit apple3 = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple3);
-            Fruit apple4 = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple4);
-            Fruit apple5 = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple5);
-            Fruit apple6 = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple6);
-            Fruit apple7 = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple7);
-            Fruit apple8 = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple8);
-            Fruit apple9 = new Fruit(getRandomLengthName("apple"),R.drawable.img_1);
-            fruitList.add(apple9);
 
-        }
-    }
-
-    private String getRandomLengthName(String name){
-        Random random = new Random();
-        int length = random.nextInt(20) +1;
-        StringBuilder builder = new StringBuilder();
-        for(int i = 0;i < length;i++){
-            builder.append(name);
-        }
-        return builder.toString();
+    private void initMsgs(){
+        Msg msg1 = new Msg("albert is handsome!",Msg.TYPE_RECEIVED);
+        msgList.add(msg1);
+        Msg msg2 = new Msg("yes!",Msg.TYPE_SENT);
+        msgList.add(msg2);
+        Msg msg3 = new Msg("thank you!",Msg.TYPE_RECEIVED);
+        msgList.add(msg3);
     }
 
 }
